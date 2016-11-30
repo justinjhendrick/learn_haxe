@@ -1,0 +1,10 @@
+# Ignore everything
+*
+
+# But not these files...
+!.gitignore
+!*.hx
+!*.hxml
+
+# ...even if they are in subdirectories
+!*/
