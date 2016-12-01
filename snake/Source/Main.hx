@@ -13,12 +13,12 @@ class Main extends Sprite {
 		super();
         field = new Field(this);
         
-        addEventListener(Event.ENTER_FRAME, every_frame);
-        addEventListener(KeyboardEvent.KEY_DOWN, Player.key_down);
+        stage.addEventListener(Event.ENTER_FRAME, every_frame);
+        stage.addEventListener(KeyboardEvent.KEY_DOWN, Player.key_down);
 
         Tile.compute_tile_size(null);
         Lib.current.stage.scaleMode = StageScaleMode.SHOW_ALL;
-        addEventListener(Event.RESIZE, Tile.compute_tile_size);
+        stage.addEventListener(Event.RESIZE, Tile.compute_tile_size);
 	}
 
     function every_frame(event : Event) {

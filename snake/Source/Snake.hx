@@ -3,6 +3,8 @@ package;
 class Snake {
     // measured in tiles
     var length : Int;
+
+    var dir : Direction;
     var delta_x : Int;
     var delta_y : Int;
 
@@ -15,17 +17,14 @@ class Snake {
     var tail_y : Int;
 
     // create a new snake and fill in the tiles it occupies with SnakeTiles
-    public function new(_length, dir, _head_x, _head_y, tiles : TileGrid) {
+    public function new(_length, _dir, _head_x, _head_y, tiles : TileGrid) {
         length = _length;
         head_x = _head_x;
         head_y = _head_y;
+        dir = _dir;
 
-        switch(dir) {
-            case UP:    delta_x = 0;  delta_y = -1;
-            case DOWN:  delta_x = 0;  delta_y = 1;
-            case LEFT:  delta_x = -1; delta_y = 0;
-            case RIGHT: delta_x = 1;  delta_y = 0;
-        }
+        set_dir(dir);
+
         tail_x = head_x - (length - 1) * delta_x;
         tail_y = head_y - (length - 1) * delta_y;
 
@@ -45,11 +44,31 @@ class Snake {
         }
     }
 
+    static function opposites(d1, d2) : Bool {
+        return d1 == UP    && d2 == DOWN  ||
+               d1 == DOWN  && d2 == UP    ||
+               d1 == LEFT  && d2 == RIGHT ||
+               d1 == RIGHT && d2 == LEFT;
+    }
+
+    public function set_dir(new_dir : Direction) {
+        trace('setting to $new_dir');
+        if (!opposites(dir, new_dir)) {
+            dir = new_dir;
+            switch(dir) {
+                case UP:    delta_x = 0;  delta_y = -1;
+                case DOWN:  delta_x = 0;  delta_y = 1;
+                case LEFT:  delta_x = -1; delta_y = 0;
+                case RIGHT: delta_x = 1;  delta_y = 0;
+            }
+        }
+    }
+
     // move one step in direction 'dir'
     public function move(tiles : TileGrid)
         : Field.GameResult {
-        var new_head_y = head_y + delta_y;
-        var new_head_x = head_x + delta_x;
+        var new_head_y = Util.Modulo(head_y + delta_y, Field.WIDTH);
+        var new_head_x = Util.Modulo(head_x + delta_x, Field.HEIGHT);
 
         var next_tile = tiles.read(new_head_x, new_head_y);
         if (Std.is(next_tile, Tile.EmptyTile)) {

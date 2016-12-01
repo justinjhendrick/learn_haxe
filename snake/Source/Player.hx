@@ -10,6 +10,7 @@ enum Input {
     DOWN;
     LEFT;
     RIGHT;
+    PAUSE;
 }
 
 class Player {
@@ -18,6 +19,8 @@ class Player {
 
     // triggered by KEY_DOWN events
     public static function key_down(e : KeyboardEvent) {
+        var kc = e.keyCode;
+        trace('got $kc');
         input_queue.add(e);
     }
 
@@ -27,10 +30,11 @@ class Player {
             return NONE;
         }
         switch(key_event.keyCode) {
-            case Keyboard.UP: return UP;
-            case Keyboard.DOWN: return DOWN;
-            case Keyboard.LEFT: return LEFT;
-            case Keyboard.RIGHT: return RIGHT;
+            case Keyboard.UP | Keyboard.W: return UP;
+            case Keyboard.DOWN | Keyboard.S: return DOWN;
+            case Keyboard.LEFT | Keyboard.A: return LEFT;
+            case Keyboard.RIGHT | Keyboard.D: return RIGHT;
+            case Keyboard.SPACE | Keyboard.P: return PAUSE;
             default: return NONE;
         }
         return NONE;
