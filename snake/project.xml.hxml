@@ -10,18 +10,14 @@
 -cp /home/justin/software/haxelib/openfl/4,4,1/externs/core/openfl
 -cp /home/justin/software/haxelib/openfl/4,4,1/externs/extras
 -D tools=3.4.1
+-D howlerjs
 -D no-compilation
--D native
--D lime-native
--D openfl-native
--D lime-cffi
--D android
--D mobile
+-D openfl-html5
+-D lime-html5
+-D html5
+-D web
 --remap flash:openfl
--cp Export/android/release/haxe
--cpp Export/android/release/obj
---macro keep("Main")
--D android
--D android-9
-
+-js Export/html5/release/bin/Snake.js
+-cp Export/html5/release/haxe
+-D html5
 -D display

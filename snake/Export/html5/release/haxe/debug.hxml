@@ -15,6 +15,7 @@
 -D html5
 -D web
 --remap flash:openfl
--js Export/html5/release/bin/HandlingKeyboardEvents.js
+-js Export/html5/release/bin/Snake.js
 -cp Export/html5/release/haxe
 -D html5
+-debug

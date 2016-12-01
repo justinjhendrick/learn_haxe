@@ -26,13 +26,13 @@ class ApplicationMain {
 		
 		config = {
 			
-			build: "1",
-			company: "OpenFL",
-			file: "HandlingKeyboardEvents",
+			build: "4",
+			company: "Company Name",
+			file: "Snake",
 			fps: 60,
-			name: "Handling Keyboard Events",
+			name: "Snake",
 			orientation: "",
-			packageName: "org.openfl.samples.handlingkeyboardevents",
+			packageName: "com.sample.snake",
 			version: "1.0.0",
 			windows: [
 				
@@ -52,7 +52,7 @@ class ApplicationMain {
 					parameters: "{}",
 					resizable: true,
 					stencilBuffer: true,
-					title: "Handling Keyboard Events",
+					title: "Snake",
 					vsync: false,
 					width: 0,
 					x: null,
@@ -95,10 +95,6 @@ class ApplicationMain {
 		#if (js && html5)
 		var urls = [];
 		var types = [];
-		
-		
-		urls.push ("assets/openfl.png");
-		types.push (lime.Assets.AssetType.IMAGE);
 		
 		
 		

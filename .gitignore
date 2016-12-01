@@ -5,6 +5,8 @@
 !.gitignore
 !*.hx
 !*.hxml
+!*.hxproj
+!*.xml
 
 # ...even if they are in subdirectories
 !*/
