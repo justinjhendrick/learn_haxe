@@ -20,7 +20,6 @@ class Player {
     // triggered by KEY_DOWN events
     public static function key_down(e : KeyboardEvent) {
         var kc = e.keyCode;
-        trace('got $kc');
         input_queue.add(e);
     }
 

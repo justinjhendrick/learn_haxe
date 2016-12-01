@@ -52,7 +52,6 @@ class Snake {
     }
 
     public function set_dir(new_dir : Direction) {
-        trace('setting to $new_dir');
         if (!opposites(dir, new_dir)) {
             dir = new_dir;
             switch(dir) {

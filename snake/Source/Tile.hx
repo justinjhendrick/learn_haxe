@@ -25,7 +25,7 @@ class Tile extends Sprite {
     }
     public static function compute_tile_size(event : Event) {
         tile_width = Lib.current.stage.stageWidth / Field.WIDTH;
-        tile_height = Lib.current.stage.stageWidth / Field.HEIGHT;
+        tile_height = Lib.current.stage.stageHeight / Field.HEIGHT;
     }
 }
 
@@ -37,10 +37,6 @@ class EmptyTile extends Tile {
     }
 
     function draw() {
-        //trace('drawing empty at $tx, $ty');
-        //this.graphics.beginFill(COLOR);
-        //this.graphics.drawRect(0, 0, Tile.tile_width, Tile.tile_height);
-        //this.graphics.endFill();
     }
 }
 
