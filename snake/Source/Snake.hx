@@ -34,14 +34,14 @@ class Snake {
         for (i in 0 ... length) {
             var x = head_x - i * delta_x;
             var y = head_y - i * delta_y;
-            var st = new Tile.SnakeTile();
+            var st = new Tile.SnakeTile(x, y);
 
             // set the next snake pointer (except for the head)
             if (i != 0) {
                 st.set_next_snake(x + delta_x, y + delta_y);
             }
 
-            tiles.write(x, y, st);
+            tiles.write(st);
         }
     }
 
@@ -54,14 +54,14 @@ class Snake {
         var next_tile = tiles.read(new_head_x, new_head_y);
         if (Std.is(next_tile, Tile.EmptyTile)) {
             // move the snake's head forward
-            tiles.write(new_head_x, new_head_y, new Tile.SnakeTile());
+            tiles.write(new Tile.SnakeTile(new_head_x, new_head_y));
             // don't forget to maintain snake pointers in the tiles
             cast(tiles.read(head_x, head_y), Tile.SnakeTile)
                 .set_next_snake(new_head_x, new_head_y);
 
             // move the snake's tail forward
             var old_tail = cast(tiles.read(tail_x, tail_y), Tile.SnakeTile);
-            tiles.write(tail_x, tail_y, new Tile.EmptyTile());
+            tiles.write(new Tile.EmptyTile(tail_x, tail_y));
             tail_x = old_tail.get_next_snake_x();
             tail_y = old_tail.get_next_snake_y();
         } else if (Std.is(next_tile, Tile.SnakeTile)) {

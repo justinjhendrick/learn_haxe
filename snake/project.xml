@@ -3,11 +3,9 @@
 	
 	<meta title="Snake" package="com.sample.snake" version="1.0.0" company="Company Name" />
 	<app main="Main" path="Export" file="Snake" />
-	
 	<source path="Source" />
-	
 	<haxelib name="openfl" />
-	
 	<assets path="Assets" rename="assets" />
+    <window background="#000000" />
 	
 </project>

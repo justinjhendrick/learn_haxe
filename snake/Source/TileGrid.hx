@@ -16,11 +16,13 @@ class TileGrid {
         width = _width;
         height = _height;
         main_sprite = _main_sprite;
+
+        // fill grid with empty tiles
         tiles = new Vector<Vector<Tile>>(width);
         for (x in 0...width) {
             var column = new Vector<Tile>(height);
             for (y in 0...height) {
-                var t = new Tile.EmptyTile();
+                var t = new Tile.EmptyTile(x, y);
                 main_sprite.addChild(t);
                 column[y] = t;
             }
@@ -28,10 +30,10 @@ class TileGrid {
         }
     }
 
-    public function write(x, y, tile : Tile) {
-        main_sprite.removeChild(tiles[x][y]);
+    public function write(tile : Tile) {
+        main_sprite.removeChild(tiles[tile.tx][tile.ty]);
         main_sprite.addChild(tile);
-        tiles[x][y] = tile;
+        tiles[tile.tx][tile.ty] = tile;
     }
 
     public function read(x, y) : Tile {

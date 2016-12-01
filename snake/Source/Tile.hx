@@ -8,11 +8,20 @@ import openfl.display.Stage;
 import openfl.events.Event;
 
 class Tile extends Sprite {
-    static var tile_width : Float;
-    static var tile_height : Float;
+    public static var tile_width : Float;
+    public static var tile_height : Float;
 
-    public function new() {
+    // coords measured in tiles
+    public var tx : Int;
+    public var ty : Int;
+
+    public function new(_x, _y) {
         super();
+        tx = _x;
+        ty = _y;
+        // measured in pixels
+        this.x = _x * tile_width;
+        this.y = _y * tile_height;
     }
     public static function compute_tile_size(event : Event) {
         tile_width = Lib.current.stage.stageWidth / Field.WIDTH;
@@ -22,26 +31,27 @@ class Tile extends Sprite {
 
 class EmptyTile extends Tile {
     var COLOR = 0x000000;
-    public function new() {
-        super();
+    public function new(_x, _y) {
+        super(_x, _y);
         draw();
     }
 
     function draw() {
-        this.graphics.beginFill(COLOR);
-        this.graphics.drawRect(0, 0, Tile.tile_width, Tile.tile_height);
-        this.graphics.endFill();
+        //trace('drawing empty at $tx, $ty');
+        //this.graphics.beginFill(COLOR);
+        //this.graphics.drawRect(0, 0, Tile.tile_width, Tile.tile_height);
+        //this.graphics.endFill();
     }
 }
 
 class SnakeTile extends Tile {
     var next_snake_x : Int;
     var next_snake_y : Int;
-    var COLOR = 0xffffff;
+    var COLOR = 0x0000ff;
 
     // draws a segment of the snake at the tile position (xpos, ypos)
-    public function new() {
-        super();
+    public function new(_x, _y) {
+        super(_x, _y);
         draw();
     }
 
@@ -67,10 +77,10 @@ class SnakeTile extends Tile {
 }
 
 class AppleTile extends Tile {
-    var COLOR = 0xffffff;
+    var COLOR = 0xff0000;
 
-    public function new() {
-        super();
+    public function new(_x, _y) {
+        super(_x, _y);
         draw();
     }
 
