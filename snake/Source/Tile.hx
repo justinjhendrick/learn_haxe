@@ -21,15 +21,23 @@ class Tile extends Sprite {
 }
 
 class EmptyTile extends Tile {
+    var COLOR = 0x000000;
     public function new() {
         super();
+        draw();
+    }
+
+    function draw() {
+        this.graphics.beginFill(COLOR);
+        this.graphics.drawRect(0, 0, Tile.tile_width, Tile.tile_height);
+        this.graphics.endFill();
     }
 }
 
 class SnakeTile extends Tile {
     var next_snake_x : Int;
     var next_snake_y : Int;
-    var COLOR = 0xff00ff;
+    var COLOR = 0xffffff;
 
     // draws a segment of the snake at the tile position (xpos, ypos)
     public function new() {
@@ -59,7 +67,7 @@ class SnakeTile extends Tile {
 }
 
 class AppleTile extends Tile {
-    var COLOR = 0x00ffff;
+    var COLOR = 0xffffff;
 
     public function new() {
         super();

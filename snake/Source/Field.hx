@@ -9,29 +9,20 @@ enum GameResult {
 
 class Field {
     var snake : Snake;
-    
+    var tile_grid : TileGrid;
+
     // size measured in tiles
     public static inline var WIDTH = 40;
     public static inline var HEIGHT = 40;
 
-    var tiles : Array<Array<Tile>> =
-        [for (x in 0...WIDTH) [for (y in 0...HEIGHT) new Tile.EmptyTile()]];
-
-    public function new() {
-        snake = new Snake(3, Snake.Direction.RIGHT, 3, 0, tiles);
+    public function new(main_sprite : Sprite) {
+        tile_grid = new TileGrid(WIDTH, HEIGHT, main_sprite);
+        snake = new Snake(3, Snake.Direction.RIGHT, 3, 0, tile_grid);
     }
 
     public function every_frame() {
         // read input
-        snake.move(tiles);
+        snake.move(tile_grid);
         trace('frame');
-    }
-
-    public function addTiles(s : Sprite) {
-        for (x in 0 ... WIDTH) {
-            for (y in 0 ... HEIGHT) {
-                s.addChild(tiles[x][y]);
-            }
-        }
     }
 }

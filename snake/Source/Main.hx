@@ -11,8 +11,7 @@ class Main extends Sprite {
 	
 	public function new () {
 		super();
-        field = new Field();
-        field.addTiles(this);
+        field = new Field(this);
         
         addEventListener(Event.ENTER_FRAME, every_frame);
         addEventListener(KeyboardEvent.KEY_DOWN, Player.key_down);

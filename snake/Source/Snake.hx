@@ -15,8 +15,7 @@ class Snake {
     var tail_y : Int;
 
     // create a new snake and fill in the tiles it occupies with SnakeTiles
-    public function new(_length, dir, _head_x, _head_y,
-                        tiles : Array<Array<Tile>>) {
+    public function new(_length, dir, _head_x, _head_y, tiles : TileGrid) {
         length = _length;
         head_x = _head_x;
         head_y = _head_y;
@@ -42,27 +41,27 @@ class Snake {
                 st.set_next_snake(x + delta_x, y + delta_y);
             }
 
-            tiles[x][y] = st;
+            tiles.write(x, y, st);
         }
     }
 
     // move one step in direction 'dir'
-    public function move(tiles : Array<Array<Tile>>)
+    public function move(tiles : TileGrid)
         : Field.GameResult {
         var new_head_y = head_y + delta_y;
         var new_head_x = head_x + delta_x;
 
-        var next_tile = tiles[new_head_x][new_head_y];
+        var next_tile = tiles.read(new_head_x, new_head_y);
         if (Std.is(next_tile, Tile.EmptyTile)) {
             // move the snake's head forward
-            tiles[new_head_x][new_head_y] = new Tile.SnakeTile();
+            tiles.write(new_head_x, new_head_y, new Tile.SnakeTile());
             // don't forget to maintain snake pointers in the tiles
-            cast(tiles[head_x][head_y], Tile.SnakeTile)
+            cast(tiles.read(head_x, head_y), Tile.SnakeTile)
                 .set_next_snake(new_head_x, new_head_y);
 
             // move the snake's tail forward
-            var old_tail = cast(tiles[tail_x][tail_y], Tile.SnakeTile);
-            tiles[tail_x][tail_y] = new Tile.EmptyTile();
+            var old_tail = cast(tiles.read(tail_x, tail_y), Tile.SnakeTile);
+            tiles.write(tail_x, tail_y, new Tile.EmptyTile());
             tail_x = old_tail.get_next_snake_x();
             tail_y = old_tail.get_next_snake_y();
         } else if (Std.is(next_tile, Tile.SnakeTile)) {
