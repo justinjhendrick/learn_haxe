@@ -7,6 +7,8 @@ import openfl.display.BitmapData;
 import openfl.events.Event;
 import openfl.geom.Rectangle;
 
+typedef IntPoint = {x : Int, y : Int};
+
 // a grid of tiles that makes all tiles children of the main sprite
 class TileGrid {
 
@@ -82,5 +84,31 @@ class TileGrid {
         grid_sprite.addChild(grid);
         grid_sprite.x = 0;
         grid_sprite.y = 0;
+    }
+
+    // choose a random non-snake position
+    function random_coords(s : Snake) : IntPoint {
+        // index into the list of all non-snake tiles
+        var rand_index = Std.random(width * height - s.length);
+        var i = 0;
+        for (x in 0 ... width) {
+            for (y in 0 ... height) {
+                if (!Std.is(tiles[x][y], Tile.SnakeTile)) {
+                    if (i == rand_index) {
+                        return {x : x, y : y};
+                    }
+                    i += 1;
+                } 
+            }
+        }
+        return {x : 0, y : 0};
+    }
+
+    // place the apple on a random tile that does not
+    // intersect the snake
+    public function place_apple(s : Snake) {
+        var p = random_coords(s);
+        var apple = new Tile.AppleTile(p.x, p.y);
+        this.write(apple);
     }
 }

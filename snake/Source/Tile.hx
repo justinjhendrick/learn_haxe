@@ -24,8 +24,8 @@ class Tile extends Shape {
         this.y = _y * tile_height;
     }
     public static function compute_tile_size(event : Event) {
-        var w = (Lib.current.stage.stageWidth - 1)/ Field.WIDTH;
-        var h = (Lib.current.stage.stageHeight - 1) / Field.HEIGHT;
+        var w = (Lib.current.stage.stageWidth - 2)/ Field.WIDTH;
+        var h = (Lib.current.stage.stageHeight - 2) / Field.HEIGHT;
 
         // keep tiles square
         var min_dim = Math.min(w, h);
@@ -88,7 +88,7 @@ class AppleTile extends Tile {
     public function draw() {
         this.graphics.beginFill(COLOR);
         var radius = Math.min(Tile.tile_width / 2, Tile.tile_height / 2);
-        this.graphics.drawCircle(0, 0, radius);
+        this.graphics.drawCircle(radius, radius, radius);
         this.graphics.endFill();
     }
 }

@@ -2,7 +2,7 @@ package;
 
 class Snake {
     // measured in tiles
-    var length : Int;
+    public var length : Int;
 
     var dir : Direction;
     var delta_x : Int;
@@ -90,7 +90,13 @@ class Snake {
             // grow the snake forward
             // place a new apple
             //   (don't forget to make sure the apple isn't in the snake)
-            // TODO
+            // move the snake's head forward
+            length += 1;
+            tiles.write(new Tile.SnakeTile(new_head_x, new_head_y));
+            // don't forget to maintain snake pointers in the tiles
+            cast(tiles.read(head_x, head_y), Tile.SnakeTile)
+                .set_next_snake(new_head_x, new_head_y);
+            tiles.place_apple(this);
         } else {
             throw "error: unknown tile type";
         }
