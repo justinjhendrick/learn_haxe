@@ -66,8 +66,8 @@ class Snake {
     // move one step in direction 'dir'
     public function move(tiles : TileGrid)
         : Field.GameResult {
-        var new_head_y = Util.Modulo(head_y + delta_y, Field.WIDTH);
-        var new_head_x = Util.Modulo(head_x + delta_x, Field.HEIGHT);
+        var new_head_y = Util.modulo(head_y + delta_y, Field.WIDTH);
+        var new_head_x = Util.modulo(head_x + delta_x, Field.HEIGHT);
 
         var next_tile = tiles.read(new_head_x, new_head_y);
         if (Std.is(next_tile, Tile.EmptyTile)) {

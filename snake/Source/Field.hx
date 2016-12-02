@@ -1,6 +1,8 @@
 package;
 
 import openfl.display.Sprite;
+import openfl.display.Shape;
+import openfl.events.Event;
 
 enum GameResult {
     CONTINUE;
@@ -10,17 +12,24 @@ enum GameResult {
 class Field {
     var snake : Snake;
     var tile_grid : TileGrid;
+    var main_sprite : Sprite;
 
     // size measured in tiles
     public static inline var WIDTH = 40;
     public static inline var HEIGHT = 40;
 
-    public function new(main_sprite : Sprite) {
-        tile_grid = new TileGrid(WIDTH, HEIGHT, main_sprite);
-        snake = new Snake(3, Snake.Direction.RIGHT, 3, 0, tile_grid);
+    public function new(_main_sprite : Sprite) {
+        main_sprite = _main_sprite;
     }
 
+    var first_frame = true;
     public function every_frame() {
+        if (first_frame) {
+            tile_grid = new TileGrid(WIDTH, HEIGHT, main_sprite);
+            snake = new Snake(3, Snake.Direction.RIGHT, 3, 0, tile_grid);
+            first_frame = false;
+        }
+
         // read input
         switch(Player.get_input()) {
             case Player.Input.UP: snake.set_dir(Snake.Direction.UP);

@@ -26,10 +26,10 @@ class ApplicationMain {
 		
 		config = {
 			
-			build: "4",
+			build: "9",
 			company: "Company Name",
 			file: "Snake",
-			fps: 60,
+			fps: 30,
 			name: "Snake",
 			orientation: "",
 			packageName: "com.sample.snake",
@@ -39,7 +39,7 @@ class ApplicationMain {
 				{
 					allowHighDPI: false,
 					antialiasing: 0,
-					background: 16777215,
+					background: 0,
 					borderless: false,
 					depthBuffer: false,
 					display: 0,
@@ -72,7 +72,7 @@ class ApplicationMain {
 		
 		#if (js && html5)
 		#if (munit || utest)
-		embed (null, 0, 0, "FFFFFF");
+		embed (null, 0, 0, "000000");
 		#end
 		#else
 		create ();

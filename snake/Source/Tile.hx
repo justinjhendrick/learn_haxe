@@ -3,11 +3,11 @@ package;
 // they can be empty, snake, or apple
 
 import openfl.Lib;
-import openfl.display.Sprite;
+import openfl.display.Shape;
 import openfl.display.Stage;
 import openfl.events.Event;
 
-class Tile extends Sprite {
+class Tile extends Shape {
     public static var tile_width : Float;
     public static var tile_height : Float;
 
@@ -24,8 +24,13 @@ class Tile extends Sprite {
         this.y = _y * tile_height;
     }
     public static function compute_tile_size(event : Event) {
-        tile_width = Lib.current.stage.stageWidth / Field.WIDTH;
-        tile_height = Lib.current.stage.stageHeight / Field.HEIGHT;
+        var w = (Lib.current.stage.stageWidth - 1)/ Field.WIDTH;
+        var h = (Lib.current.stage.stageHeight - 1) / Field.HEIGHT;
+
+        // keep tiles square
+        var min_dim = Math.min(w, h);
+        tile_width = min_dim;
+        tile_height = min_dim;
     }
 }
 
@@ -45,12 +50,12 @@ class SnakeTile extends Tile {
     var next_snake_y : Int;
     var COLOR = 0x0000ff;
 
-    // draws a segment of the snake at the tile position (xpos, ypos)
     public function new(_x, _y) {
         super(_x, _y);
         draw();
     }
 
+    // draws a segment of the snake at the tile position (xpos, ypos)
     function draw() {
         this.graphics.beginFill(COLOR);
         this.graphics.drawRect(0, 0, Tile.tile_width, Tile.tile_height);
