@@ -27,7 +27,12 @@ class Field {
     public function every_frame() {
         if (!game_over) {
             if (first_frame) {
-                tile_grid = new TileGrid(WIDTH, HEIGHT, main_sprite);
+                tile_grid = new TileGrid(WIDTH, HEIGHT);
+                main_sprite.addChild(tile_grid);
+                main_sprite.stage.addEventListener(
+                        Event.RESIZE, tile_grid.create_grid_bitmap);
+                main_sprite.stage.addEventListener(
+                        Event.RESIZE, tile_grid.redraw_apple);
                 snake = new Snake(3, Snake.Direction.RIGHT, 3, 0, tile_grid);
                 tile_grid.place_apple(snake);
                 first_frame = false;
@@ -49,6 +54,7 @@ class Field {
                 game_over = true;
             }
         } else {
+            Client.main(snake.length, "Justin");
             // TODO display Game Over screen?
             // TODO highscore calculation
         }

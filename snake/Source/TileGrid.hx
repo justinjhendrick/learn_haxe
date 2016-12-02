@@ -10,11 +10,10 @@ import openfl.geom.Rectangle;
 typedef IntPoint = {x : Int, y : Int};
 
 // a grid of tiles that makes all tiles children of the main sprite
-class TileGrid {
+class TileGrid extends Sprite {
 
-    var width : Int;
-    var height : Int;
-    var main_sprite : Sprite;
+    private var num_tiles_x : Int;
+    private var num_tiles_y : Int;
 
     var apple_x : Int;
     var apple_y : Int;
@@ -24,25 +23,24 @@ class TileGrid {
 
     var tiles : Vector<Vector<Tile>>;
 
-    public function new(_width, _height, _main_sprite : Sprite) {
-        width = _width;
-        height = _height;
-        main_sprite = _main_sprite;
+    public function new(_num_tiles_x, _num_tiles_y) {
+        super();
+
+        num_tiles_x = _num_tiles_x;
+        num_tiles_y = _num_tiles_y;
 
         // create grid in a bitmap one time for performance
         grid_sprite = new Sprite();
         create_grid_bitmap(null);
-        main_sprite.stage.addEventListener(Event.RESIZE, create_grid_bitmap);
-        main_sprite.stage.addEventListener(Event.RESIZE, redraw_apple);
-        main_sprite.addChild(grid_sprite);
+        this.addChild(grid_sprite);
 
         // fill grid with empty tiles
-        tiles = new Vector<Vector<Tile>>(width);
-        for (x in 0...width) {
-            var column = new Vector<Tile>(height);
-            for (y in 0...height) {
+        tiles = new Vector<Vector<Tile>>(num_tiles_x);
+        for (x in 0...num_tiles_x) {
+            var column = new Vector<Tile>(num_tiles_y);
+            for (y in 0...num_tiles_y) {
                 var t = new Tile.EmptyTile(x, y);
-                main_sprite.addChild(t);
+                this.addChild(t);
                 column[y] = t;
             }
             tiles[x] = column;
@@ -50,8 +48,8 @@ class TileGrid {
     }
 
     public function write(tile : Tile) {
-        main_sprite.removeChild(tiles[tile.tx][tile.ty]);
-        main_sprite.addChild(tile);
+        this.removeChild(tiles[tile.tx][tile.ty]);
+        this.addChild(tile);
         tiles[tile.tx][tile.ty] = tile;
     }
 
@@ -60,8 +58,8 @@ class TileGrid {
     }
 
     public function create_grid_bitmap(e : Event) {
-        var w = Tile.tile_width * this.width + 1;
-        var h = Tile.tile_height * this.height + 1;
+        var w = Tile.tile_width * this.num_tiles_x + 1;
+        var h = Tile.tile_height * this.num_tiles_y + 1;
         
         var gridData:BitmapData = new BitmapData(
                 Util.round_up(w), Util.round_up(h), false, 0x000000);
@@ -93,10 +91,10 @@ class TileGrid {
     // choose a random non-snake position
     function random_coords(s : Snake) : IntPoint {
         // index into the list of all non-snake tiles
-        var rand_index = Std.random(width * height - s.length);
+        var rand_index = Std.random(num_tiles_x * num_tiles_y - s.length);
         var i = 0;
-        for (x in 0 ... width) {
-            for (y in 0 ... height) {
+        for (x in 0 ... num_tiles_x) {
+            for (y in 0 ... num_tiles_y) {
                 if (!Std.is(tiles[x][y], Tile.SnakeTile)) {
                     if (i == rand_index) {
                         return {x : x, y : y};
