@@ -49,7 +49,8 @@ class Field {
                 game_over = true;
             }
         } else {
-            // TODO display Game Over screen
+            // TODO display Game Over screen?
+            // TODO highscore calculation
         }
     }
 }

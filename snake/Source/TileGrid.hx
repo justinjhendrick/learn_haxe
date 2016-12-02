@@ -16,6 +16,9 @@ class TileGrid {
     var height : Int;
     var main_sprite : Sprite;
 
+    var apple_x : Int;
+    var apple_y : Int;
+
     var grid_sprite : Sprite;
     var grid : Bitmap;
 
@@ -30,6 +33,7 @@ class TileGrid {
         grid_sprite = new Sprite();
         create_grid_bitmap(null);
         main_sprite.stage.addEventListener(Event.RESIZE, create_grid_bitmap);
+        main_sprite.stage.addEventListener(Event.RESIZE, redraw_apple);
         main_sprite.addChild(grid_sprite);
 
         // fill grid with empty tiles
@@ -108,7 +112,14 @@ class TileGrid {
     // intersect the snake
     public function place_apple(s : Snake) {
         var p = random_coords(s);
+        apple_x = p.x;
+        apple_y = p.y;
         var apple = new Tile.AppleTile(p.x, p.y);
         this.write(apple);
+    }
+
+    public function redraw_apple(e : Event) {
+        var new_apple = new Tile.AppleTile(apple_x, apple_y);
+        this.write(new_apple);
     }
 }

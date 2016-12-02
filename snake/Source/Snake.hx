@@ -63,6 +63,14 @@ class Snake {
         }
     }
 
+    // the head will almost hit the tail, being exactly one tile behind it.
+    // This special case is NOT a game over
+    inline function near_miss_tail(new_head_x, new_head_y, next_tile) : Bool {
+        return new_head_x == tail_x &&
+               new_head_y == tail_y &&
+               Std.is(next_tile, Tile.SnakeTile);
+    }
+
     // move one step in direction 'dir'
     public function move(tiles : TileGrid)
         : Field.GameResult {
@@ -70,27 +78,25 @@ class Snake {
         var new_head_x = Util.modulo(head_x + delta_x, Field.HEIGHT);
 
         var next_tile = tiles.read(new_head_x, new_head_y);
-        if (Std.is(next_tile, Tile.EmptyTile)) {
-            // move the snake's head forward
-            tiles.write(new Tile.SnakeTile(new_head_x, new_head_y));
-            // don't forget to maintain snake pointers in the tiles
-            cast(tiles.read(head_x, head_y), Tile.SnakeTile)
-                .set_next_snake(new_head_x, new_head_y);
-
+        if (Std.is(next_tile, Tile.EmptyTile) ||
+                near_miss_tail(new_head_x, new_head_y, next_tile)) {
             // move the snake's tail forward
             var old_tail = cast(tiles.read(tail_x, tail_y), Tile.SnakeTile);
             tiles.write(new Tile.EmptyTile(tail_x, tail_y));
             tail_x = old_tail.get_next_snake_x();
             tail_y = old_tail.get_next_snake_y();
+
+            // move the snake's head forward
+            tiles.write(new Tile.SnakeTile(new_head_x, new_head_y));
+            // don't forget to maintain snake pointers in the tiles
+            cast(tiles.read(head_x, head_y), Tile.SnakeTile)
+                .set_next_snake(new_head_x, new_head_y);
         } else if (Std.is(next_tile, Tile.SnakeTile)) {
             // the snake has run into itself
             return Field.GameResult.GAME_OVER;
         } else if (Std.is(next_tile, Tile.AppleTile)) {
             // the snake has found an apple
             // grow the snake forward
-            // place a new apple
-            //   (don't forget to make sure the apple isn't in the snake)
-            // move the snake's head forward
             length += 1;
             tiles.write(new Tile.SnakeTile(new_head_x, new_head_y));
             // don't forget to maintain snake pointers in the tiles

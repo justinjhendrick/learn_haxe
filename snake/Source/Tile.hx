@@ -38,11 +38,11 @@ class EmptyTile extends Tile {
     var COLOR = 0x000000;
     public function new(_x, _y) {
         super(_x, _y);
-        draw();
+        //draw();
     }
 
-    function draw() {
-    }
+    //function draw() {
+    //}
 }
 
 class SnakeTile extends Tile {
