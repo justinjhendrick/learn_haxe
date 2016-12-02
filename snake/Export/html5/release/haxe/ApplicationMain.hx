@@ -26,10 +26,10 @@ class ApplicationMain {
 		
 		config = {
 			
-			build: "10",
+			build: "11",
 			company: "Company Name",
 			file: "Snake",
-			fps: 30,
+			fps: 25,
 			name: "Snake",
 			orientation: "",
 			packageName: "com.sample.snake",

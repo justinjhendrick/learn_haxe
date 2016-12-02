@@ -29,8 +29,8 @@ class Tile extends Shape {
 
         // keep tiles square
         var min_dim = Math.min(w, h);
-        tile_width = min_dim;
-        tile_height = min_dim;
+        tile_width = Std.int(min_dim);
+        tile_height = Std.int(min_dim);
     }
 }
 
@@ -58,7 +58,7 @@ class SnakeTile extends Tile {
     // draws a segment of the snake at the tile position (xpos, ypos)
     function draw() {
         this.graphics.beginFill(COLOR);
-        this.graphics.drawRect(0, 0, Tile.tile_width, Tile.tile_height);
+        this.graphics.drawRect(1, 1, Tile.tile_width - 1, Tile.tile_height - 1);
         this.graphics.endFill();
     }
 
@@ -88,7 +88,7 @@ class AppleTile extends Tile {
     public function draw() {
         this.graphics.beginFill(COLOR);
         var radius = Math.min(Tile.tile_width / 2, Tile.tile_height / 2);
-        this.graphics.drawCircle(radius, radius, radius);
+        this.graphics.drawCircle(radius + 1, radius + 1, radius - 1);
         this.graphics.endFill();
     }
 }

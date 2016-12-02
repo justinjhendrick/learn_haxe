@@ -16,8 +16,8 @@ class Field {
     var game_over = false;
 
     // size measured in tiles
-    public static inline var WIDTH = 40;
-    public static inline var HEIGHT = 40;
+    public static inline var WIDTH = 30;
+    public static inline var HEIGHT = 30;
 
     public function new(_main_sprite : Sprite) {
         main_sprite = _main_sprite;
