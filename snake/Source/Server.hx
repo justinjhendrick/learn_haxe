@@ -1,10 +1,23 @@
-#if php
-class Server {
-    var hi_score_file : String = "hi_scores.txt";
+package;
 
-    function new() {
-        trace('server created');
+class Server {
+    public static var hi_score_file = "hi_scores.txt";
+    public static var delim = ", ";
+
+    public static function parse_hi_scores(txt : String) 
+        : Array<Client.ScoreEntry> {
+        var result = [];
+        for (s in txt.split("\n")) {
+            var score_name = s.split(delim);
+            var score = Std.parseInt(score_name[0]);
+            var scorer_name = score_name[1];
+            result.push({score : score, name : scorer_name});
+        }
+        return result;
     }
+
+    #if php
+    function new() { }
     function handle_score(score : Int, name : String) {
         trace('server got $score, $name');
         var exists = sys.FileSystem.exists(hi_score_file);
@@ -12,9 +25,9 @@ class Server {
         var hi_scorer_name : String;
         if (exists) {
             var content = sys.io.File.getContent(hi_score_file);
-            var score_name = content.split(",");
-            hi_score = Std.parseInt(score_name[0]);
-            hi_scorer_name = score_name[1];
+            var top = parse_hi_scores(content)[0];
+            hi_score = top.score;
+            hi_scorer_name = top.name;
         } else {
             hi_score = -1;
         }
@@ -24,7 +37,7 @@ class Server {
             hi_score = score;
 
             sys.io.File.write(hi_score_file)
-                .writeString(Std.string(hi_score) + "," + hi_scorer_name);
+                .writeString(Std.string(hi_score) + delim + hi_scorer_name);
         }
     }
   
@@ -40,5 +53,5 @@ class Server {
         // handle normal request
         trace("This is a remoting server !");
     } 
+    #end
 }
-#end
