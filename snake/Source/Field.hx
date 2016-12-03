@@ -14,6 +14,7 @@ class Field {
     var tile_grid : TileGrid;
     var main_sprite : Sprite;
     var game_over = false;
+    var first_game_over_frame = false;
 
     // size measured in tiles
     public static inline var WIDTH = 30;
@@ -52,9 +53,11 @@ class Field {
             var result : Field.GameResult = snake.move(tile_grid);
             if (result == Field.GameResult.GAME_OVER) {
                 game_over = true;
+                first_game_over_frame = true;
             }
-        } else {
+        } else if (first_game_over_frame) {
             Client.main(snake.length, "Justin");
+            first_game_over_frame = false;
             // TODO display Game Over screen?
             // TODO highscore calculation
         }

@@ -2,8 +2,10 @@
 class Server {
     var hi_score_file : String = "hi_scores.txt";
 
-    function new() {}
-    function handle_scort(score : Int, name : String) {
+    function new() {
+        trace('server created');
+    }
+    function handle_score(score : Int, name : String) {
         trace('server got $score, $name');
         var exists = sys.FileSystem.exists(hi_score_file);
         var hi_score : Int;
@@ -22,7 +24,7 @@ class Server {
             hi_score = score;
 
             sys.io.File.write(hi_score_file)
-                .writeString(Std.string(hi_score) + hi_scorer_name);
+                .writeString(Std.string(hi_score) + "," + hi_scorer_name);
         }
     }
   
@@ -31,6 +33,7 @@ class Server {
         ctx.addObject("Server", new Server());
     
         if(haxe.remoting.HttpConnection.handleRequest(ctx)) {
+            trace('handleRequest returned true');
             return;
         }
     
