@@ -3,6 +3,7 @@ package;
 class Server {
     public static var hi_score_file = "hi_scores.txt";
     public static var delim = ", ";
+    public static var entry_delim = "\n";
 
     public static function parse_hi_scores(txt : String) 
         : Array<Client.ScoreEntry> {

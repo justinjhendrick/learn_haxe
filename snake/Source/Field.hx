@@ -63,12 +63,26 @@ class Field {
                 first_game_over_frame = true;
             }
         } else if (first_game_over_frame) {
-            Client.send_score(snake.length, "Justin", reset_scoreboard);
+            var score = snake.length;
+
+            // create the game over screen
+            var is_hi_score = scoreboard.is_new_hi_score(score);
+            var game_over_screen = new GameOverScreen(is_hi_score);
+            game_over_screen.x = Tile.tile_width * Field.WIDTH / 2 -
+                game_over_screen.width_px / 2;
+            game_over_screen.y = Tile.tile_height * Field.HEIGHT / 2 -
+                game_over_screen.height_px / 2;
+            main_sprite.addChild(game_over_screen);
+
+            // send the scores if this is a new hi score
+            // also update the scoreboard
+            if (is_hi_score) {
+                game_over_screen.set_callback(function(name : String) {
+                    Client.send_score(score, name, reset_scoreboard);
+                });
+            }
+
             first_game_over_frame = false;
-            // TODO display Game Over screen
-            // if score > cached score
-            //   ask for name
-            //   send score and name
         }
             
         if (frame_number % 1250 == 0) {
