@@ -18,14 +18,16 @@ class Server {
 
     #if php
     function new() { }
-    function handle_score(score : Int, name : String) {
-        trace('server got $score, $name');
+    function handle_score(score : Int, name : String) : String {
+        // NOTE: do not use trace() here.
+        // It triggers the error handler on the client side
         var exists = sys.FileSystem.exists(hi_score_file);
         var hi_score : Int;
         var hi_scorer_name : String;
+        var old_scores : String = null;
         if (exists) {
-            var content = sys.io.File.getContent(hi_score_file);
-            var top = parse_hi_scores(content)[0];
+            old_scores = sys.io.File.getContent(hi_score_file);
+            var top = parse_hi_scores(old_scores)[0];
             hi_score = top.score;
             hi_scorer_name = top.name;
         } else {
@@ -33,11 +35,19 @@ class Server {
         }
 
         if (!exists || score > hi_score) {
+            // no prev hi score file or new hi score
+            // create new hi score file
             hi_scorer_name = name;
             hi_score = score;
 
-            sys.io.File.write(hi_score_file)
-                .writeString(Std.string(hi_score) + delim + hi_scorer_name);
+            var new_hi_scores = Std.string(hi_score) + delim + hi_scorer_name;
+            sys.io.File.write(hi_score_file).writeString(new_hi_scores);
+            return new_hi_scores;
+        } else if (old_scores != null) {
+            // no update. send old scores
+            return old_scores;
+        } else {
+            return null;
         }
     }
   
@@ -46,12 +56,10 @@ class Server {
         ctx.addObject("Server", new Server());
     
         if(haxe.remoting.HttpConnection.handleRequest(ctx)) {
-            trace('handleRequest returned true');
             return;
         }
     
         // handle normal request
-        trace("This is a remoting server !");
     } 
     #end
 }

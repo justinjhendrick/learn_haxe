@@ -34,7 +34,7 @@ class Field {
                 tile_grid = new TileGrid(WIDTH, HEIGHT);
                 main_sprite.addChild(tile_grid);
 
-                scoreboard = new Scoreboard();
+                scoreboard = new Scoreboard(null);
                 main_sprite.addChild(scoreboard);
 
                 main_sprite.stage.addEventListener(
@@ -66,6 +66,9 @@ class Field {
             Client.send_score(snake.length, "Justin", reset_scoreboard);
             first_game_over_frame = false;
             // TODO display Game Over screen
+            // if score > cached score
+            //   ask for name
+            //   send score and name
         }
             
         if (frame_number % 1250 == 0) {
@@ -75,9 +78,12 @@ class Field {
         frame_number += 1;
     }
 
-    function reset_scoreboard(ignore : String) {
+    // redraw the scoreboard with new data
+    // reset(null) gets from server
+    // reset(string) uses string data
+    function reset_scoreboard(new_scores : String) {
         main_sprite.removeChild(scoreboard);
-        scoreboard = new Scoreboard();
+        scoreboard = new Scoreboard(new_scores);
         main_sprite.addChild(scoreboard);
     }
 }

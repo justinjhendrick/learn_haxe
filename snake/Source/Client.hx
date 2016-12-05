@@ -7,12 +7,13 @@ class Client {
     private static var serverUrl =
         "http://www.hendrick.family/justin/games/snake/server/";
 
+    // send score and receive back updated list of
+    // hi scores
     public static function send_score(
             score : Int, name : String, callback : String -> Void) {
-        var cnx = HttpAsyncConnection
-            .urlConnect(serverUrl + "index.php");
-        cnx.setErrorHandler( function(err) trace('Error: $err') );
-        cnx.Server.handle_score .call([score, name], callback);
+        var cnx = HttpAsyncConnection.urlConnect(serverUrl + "index.php");
+        cnx.setErrorHandler(function(err) trace('Error: $err'));
+        cnx.Server.handle_score.call([score, name], callback);
     }
 
     public static function get_scores_raw(callback : String -> Void) {
