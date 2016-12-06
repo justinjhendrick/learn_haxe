@@ -1,13 +1,16 @@
 package;
-// The screen is filled with tiles
-// they can be empty, snake, or apple
 
 import openfl.Lib;
 import openfl.display.Shape;
 import openfl.display.Stage;
 import openfl.events.Event;
 
+// The screen is filled with tiles
+// they can be empty, snake, or apple
 class Tile extends Shape {
+
+    // these values are kept up to date with the stage size
+    // use them to calculate play area dimensions
     public static var tile_width : Float;
     public static var tile_height : Float;
 
@@ -23,6 +26,7 @@ class Tile extends Shape {
         this.x = _x * tile_width;
         this.y = _y * tile_height;
     }
+
     public static function compute_tile_size(event : Event) {
         var w = (Lib.current.stage.stageWidth - 2)/ Field.WIDTH;
         var h = (Lib.current.stage.stageHeight - 2) / Field.HEIGHT;
@@ -35,7 +39,6 @@ class Tile extends Shape {
 }
 
 class EmptyTile extends Tile {
-    var COLOR = 0x000000;
     public function new(_x, _y) {
         super(_x, _y);
         //draw();
@@ -46,8 +49,12 @@ class EmptyTile extends Tile {
 }
 
 class SnakeTile extends Tile {
+
+    // pointer to the next snake segment
+    // (towards the head)
     var next_snake_x : Int;
     var next_snake_y : Int;
+
     var COLOR = 0x0000ff;
 
     public function new(_x, _y) {

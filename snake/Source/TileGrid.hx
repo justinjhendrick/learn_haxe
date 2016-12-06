@@ -9,7 +9,9 @@ import openfl.geom.Rectangle;
 
 typedef IntPoint = {x : Int, y : Int};
 
-// a grid of tiles that makes all tiles children of the main sprite
+// A grid of tiles that hold the state of the snake and apple
+// The path of the snake is held in the Tiles. SnakeTiles have
+// pointers to the next snake segment towards the head
 class TileGrid extends Sprite {
 
     private var num_tiles_x : Int;
@@ -18,6 +20,7 @@ class TileGrid extends Sprite {
     var apple_x : Int;
     var apple_y : Int;
 
+    // background image
     var grid_sprite : Sprite;
     var grid : Bitmap;
 
@@ -47,6 +50,8 @@ class TileGrid extends Sprite {
         }
     }
 
+    // put tile into the grid. Use tile.tx and tile.ty
+    // to place it. Maintain the display list
     public function write(tile : Tile) {
         this.removeChild(tiles[tile.tx][tile.ty]);
         this.addChild(tile);
@@ -76,7 +81,7 @@ class TileGrid extends Sprite {
             hLine.y += Tile.tile_height;
         }
         
-        // remove old grid
+        // remove old grid (in case of resize)
         if (grid != null) {
             grid_sprite.removeChild(grid);
         }
@@ -92,6 +97,10 @@ class TileGrid extends Sprite {
     function random_coords(s : Snake) : IntPoint {
         // index into the list of all non-snake tiles
         var rand_index = Std.random(num_tiles_x * num_tiles_y - s.length);
+
+        // list all non-snake tiles by iterating
+        // through tiles by columns and skipping the snake tiles
+        // until rand_index is reached
         var i = 0;
         for (x in 0 ... num_tiles_x) {
             for (y in 0 ... num_tiles_y) {
@@ -103,6 +112,9 @@ class TileGrid extends Sprite {
                 } 
             }
         }
+
+        // Snake fills entire screen?
+        // game over I guess?
         return {x : 0, y : 0};
     }
 
@@ -116,6 +128,8 @@ class TileGrid extends Sprite {
         this.write(apple);
     }
 
+    // redraw (but don't move) the apple
+    // this is necessary when the stage is resized.
     public function redraw_apple(e : Event) {
         var new_apple = new Tile.AppleTile(apple_x, apple_y);
         this.write(new_apple);

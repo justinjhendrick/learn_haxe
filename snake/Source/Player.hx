@@ -13,13 +13,14 @@ enum Input {
     PAUSE;
 }
 
+// If the player is human, get input from the keyboard
+// TODO if the player is AI, get input some other way
 class Player {
     // add to the back, read from the front
     static var input_queue : List<KeyboardEvent> = new List<KeyboardEvent>();
 
     // triggered by KEY_DOWN events
     public static function key_down(e : KeyboardEvent) {
-        var kc = e.keyCode;
         input_queue.add(e);
     }
 

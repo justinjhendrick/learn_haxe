@@ -44,6 +44,7 @@ class Snake {
         }
     }
 
+    // return true if d1 and d2 point in opposite directions
     static function opposites(d1, d2) : Bool {
         return d1 == UP    && d2 == DOWN  ||
                d1 == DOWN  && d2 == UP    ||
@@ -65,21 +66,21 @@ class Snake {
 
     // the head will almost hit the tail, being exactly one tile behind it.
     // This special case is NOT a game over
-    inline function near_miss_tail(new_head_x, new_head_y, next_tile) : Bool {
-        return new_head_x == tail_x &&
-               new_head_y == tail_y &&
-               Std.is(next_tile, Tile.SnakeTile);
+    inline function near_miss_tail(new_head_x, new_head_y) : Bool {
+        return new_head_x == tail_x && new_head_y == tail_y;
     }
 
     // move one step in direction 'dir'
     public function move(tiles : TileGrid)
         : Field.GameResult {
+        
+        // wrap around the play field
         var new_head_y = Util.modulo(head_y + delta_y, Field.WIDTH);
         var new_head_x = Util.modulo(head_x + delta_x, Field.HEIGHT);
 
         var next_tile = tiles.read(new_head_x, new_head_y);
         if (Std.is(next_tile, Tile.EmptyTile) ||
-                near_miss_tail(new_head_x, new_head_y, next_tile)) {
+                near_miss_tail(new_head_x, new_head_y)) {
             // move the snake's tail forward
             var old_tail = cast(tiles.read(tail_x, tail_y), Tile.SnakeTile);
             tiles.write(new Tile.EmptyTile(tail_x, tail_y));

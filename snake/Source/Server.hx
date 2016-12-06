@@ -2,8 +2,8 @@ package;
 
 class Server {
     public static var hi_score_file = "hi_scores.txt";
-    public static var delim = ", ";
-    public static var entry_delim = "\n";
+    public static var delim = ", "; // between score and name
+    public static var entry_delim = "\n"; // between entries
 
     public static function parse_hi_scores(txt : String) 
         : Array<Client.ScoreEntry> {
@@ -19,6 +19,11 @@ class Server {
 
     #if php
     function new() { }
+
+    // server side code to handle a score and name coming from the client and
+    // maintain hi_scores.txt.
+    // TODO: make threadsafe
+    // TODO: store more than one hi score
     function handle_score(score : Int, name : String) : String {
         // NOTE: do not use trace() here.
         // It triggers the error handler on the client side
@@ -59,8 +64,6 @@ class Server {
         if(haxe.remoting.HttpConnection.handleRequest(ctx)) {
             return;
         }
-    
-        // handle normal request
     } 
     #end
 }

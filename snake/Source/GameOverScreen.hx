@@ -63,6 +63,7 @@ class GameOverScreen extends Sprite {
         graphics.endFill();
     }
 
+    // wait for the enter key, then trigger callback with entered text
     function wait_for_enter(e : TextEvent) {
         // get last character
         if (e != null && e.type == TextEvent.TEXT_INPUT &&

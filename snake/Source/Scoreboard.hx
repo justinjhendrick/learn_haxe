@@ -1,7 +1,11 @@
 package;
 
 import openfl.text.TextField;
+import haxe.Timer;
 
+// A class to display (and cache) the hi score list from
+// the server.
+// Automatically refreshes itself.
 class Scoreboard extends TextField {
     var BORDER_PX = 20;
     var cached : Array<Client.ScoreEntry>;
@@ -12,10 +16,18 @@ class Scoreboard extends TextField {
         super();
         if (new_scores == null) {
             // go get it from server
-            Client.get_scores_raw(create_text_box);
+            Client.get_scores(create_text_box);
         } else {
             // use provided data
             create_text_box(new_scores);
+        }
+
+        // create a timer to refresh the scoreboard
+        // on a regular basis
+        var interval_ms = 60 * 1000;
+        var refresh_timer = new Timer(interval_ms);
+        refresh_timer.run = function() {
+            Client.get_scores(create_text_box);
         }
     }
 
