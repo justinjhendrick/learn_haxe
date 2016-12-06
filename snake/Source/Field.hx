@@ -34,7 +34,6 @@ class Field {
         main_sprite.addChild(tile_grid);
 
         scoreboard = new Scoreboard(null);
-        main_sprite.addChild(scoreboard);
 
         main_sprite.stage.addEventListener(
                 Event.RESIZE, tile_grid.create_grid_bitmap);
@@ -93,17 +92,8 @@ class Field {
         // also update the scoreboard
         if (is_hi_score) {
             game_over_screen.set_callback(function(name : String) {
-                Client.send_score(score, name, reset_scoreboard);
+                Client.send_score(score, name, scoreboard.display);
             });
         }
-    }
-
-    // redraw the scoreboard with new data
-    // reset(null) gets from server
-    // reset(string) uses string data
-    function reset_scoreboard(new_scores : String) {
-        main_sprite.removeChild(scoreboard);
-        scoreboard = new Scoreboard(new_scores);
-        main_sprite.addChild(scoreboard);
     }
 }

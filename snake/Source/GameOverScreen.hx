@@ -22,20 +22,20 @@ class GameOverScreen extends Sprite {
     public function new(new_hi : Bool) {
         super();
         this.addEventListener(TextEvent.TEXT_INPUT, wait_for_enter);
-        this.height = height_px;
 
         title = new TextField();
         title.x = 0;
         title.y = 0;
 
         title.textColor = 0xffffff;
+        title.selectable = true;
         if (new_hi) {
             title.htmlText = "<h1>New High Score!</h1>";
 
             input = new TextField();
             input.type = TextFieldType.INPUT;
-            input.selectable = true;
-            input.multiline = false;
+            //input.selectable = true;
+            //input.multiline = false;
 
             input.border = true;
             input.borderColor = 0xff0000;
@@ -43,11 +43,12 @@ class GameOverScreen extends Sprite {
             input.x = 0;
             input.y = 30;
             input.height = this.height_px - input.y;
+            input.width = this.width_px;
 
             input.background = true;
             input.backgroundColor = 0xffffff;
             input.textColor = 0x000000;
-            //input.text = "enter your name";
+            input.text = "enter your name";
 
             this.addChild(input);
         } else {
@@ -59,7 +60,7 @@ class GameOverScreen extends Sprite {
 
     function draw() {
         graphics.beginFill(0x000000);
-        graphics.drawRect(0, 0, width_px, height_px);
+        graphics.drawRect(0, 0, width_px, 30);
         graphics.endFill();
     }
 

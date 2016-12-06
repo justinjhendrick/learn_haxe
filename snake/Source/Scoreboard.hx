@@ -6,20 +6,19 @@ import haxe.Timer;
 // A class to display (and cache) the hi score list from
 // the server.
 // Automatically refreshes itself.
-class Scoreboard extends TextField {
+class Scoreboard {
     var BORDER_PX = 20;
     var cached : Array<Client.ScoreEntry>;
 
     // new(null) will retrieve from server
     // new(string) will update with string data
     public function new(new_scores : String) {
-        super();
         if (new_scores == null) {
             // go get it from server
-            Client.get_scores(create_text_box);
+            Client.get_scores(display);
         } else {
             // use provided data
-            create_text_box(new_scores);
+            display(new_scores);
         }
 
         // create a timer to refresh the scoreboard
@@ -27,20 +26,21 @@ class Scoreboard extends TextField {
         var interval_ms = 60 * 1000;
         var refresh_timer = new Timer(interval_ms);
         refresh_timer.run = function() {
-            Client.get_scores(create_text_box);
+            Client.get_scores(display);
         }
     }
 
-    function create_text_box(s : String) {
+    public function display(s : String) {
         trace('got scores $s');
-        this.x = Tile.tile_width * Field.WIDTH + BORDER_PX;
-        this.y = 0;
-        this.htmlText = "<h1>High Scores</h1>\n";
+
+        #if html5
+        var doc = js.Browser.window.document;
+        var hi_scores : js.html.Element  = doc.getElementById("hi_scores");
         if (s != null) {
-            cached = Server.parse_hi_scores(s);
-            this.htmlText += "<pre>" + s + "</ pre>";
+            hi_scores.innerText = s;
         }
-        this.textColor = 0xffffff;
+        #else trace("hi scores not yet supported on this platform"
+        #end
     }
 
     // true if current score is highest (as of last download from server).

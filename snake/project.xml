@@ -7,5 +7,6 @@
 	<haxelib name="openfl" />
 	<assets path="Assets" rename="assets" />
     <window background="#000000" fps="25"/>
+    <template path="templates" />
 	
 </project>
