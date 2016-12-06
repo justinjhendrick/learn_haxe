@@ -91,9 +91,11 @@ class Field {
         // send the scores if this is a new hi score
         // also update the scoreboard
         if (is_hi_score) {
-            game_over_screen.set_callback(function(name : String) {
-                Client.send_score(score, name, scoreboard.display);
-            });
+            Client.score = score;
+            Client.response_callback = scoreboard.display;
+            // make input fields visible
+            scoreboard.request_player_name();
+            // html form submission will trigger Client.send_score
         }
     }
 }

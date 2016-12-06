@@ -52,4 +52,16 @@ class Scoreboard {
         return score > top;
     }
 
+    public function request_player_name() {
+        #if html5
+        // make form visible
+        var doc = js.Browser.window.document;
+        var input_form = doc.getElementById("name_form");
+        input_form.removeAttribute("hidden");
+
+        // set form action to send_score
+        input_form.setAttribute("action", "javascript:Client.send_score()");
+        #end
+    }
+
 }
