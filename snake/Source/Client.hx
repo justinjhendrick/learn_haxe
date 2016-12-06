@@ -1,6 +1,8 @@
 import haxe.remoting.HttpAsyncConnection; 
 import haxe.Http;
+#if js
 import js.html.InputElement;
+#end
 
 typedef ScoreEntry = {score : Int, name : String};
 

@@ -81,7 +81,7 @@ class Field {
 
         // create the game over screen
         var is_hi_score = scoreboard.is_new_hi_score(score);
-        var game_over_screen = new GameOverScreen(is_hi_score);
+        var game_over_screen = new GameOverScreen(is_hi_score, score);
         game_over_screen.x = Tile.tile_width * Field.WIDTH / 2 -
             game_over_screen.width_px / 2;
         game_over_screen.y = Tile.tile_height * Field.HEIGHT / 2 -
