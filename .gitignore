@@ -7,6 +7,7 @@
 !*.hxml
 !*.hxproj
 !*.xml
+!*.html
 
 # ...even if they are in subdirectories
 !*/
